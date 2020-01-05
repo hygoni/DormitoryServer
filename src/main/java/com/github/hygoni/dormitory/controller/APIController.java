@@ -1,21 +1,27 @@
 package com.github.hygoni.dormitory.controller;
 
+import com.github.hygoni.dormitory.model.User;
+import com.github.hygoni.dormitory.service.UserService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
 public class APIController {
-    @RequestMapping(value = "/register", method = RequestMethod.POST, headers = "Accept=application/json")
-    public String register(@RequestBody String payload) throws ParseException {
-        JSONParser parser = new JSONParser();
-        JSONObject json = (JSONObject) parser.parse(payload);
-        String id = (String) json.get("id");
-        String password = (String) json.get("password");
-        int buildingNumber = Integer.parseInt((String) json.get("buildingNumber"));
-        System.out.println(String.format("%s, %s, %d", id, password, buildingNumber));
-        return payload;
+
+    @Autowired
+    UserService userService;
+
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        return userService.saveUser(user);
+    }
+
+    @GetMapping("/get/{id}")
+    public User getUser(@PathVariable String id){
+        return userService.findUserById(id);
     }
 }
