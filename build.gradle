@@ -26,6 +26,9 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     //JSON API
     compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    //for Authentication (springboot security, jwt)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
