@@ -19,20 +19,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final ResponseService responseService;
 
-    public Optional<User> findUserByUid(String uid) {
+    public Optional<User> findByUid(String uid) {
         return userRepository.findByUid(uid);
     }
 
-    public Optional<User> findUserById(long id) {
+    public Optional<User> findById(long id) {
         return userRepository.findById(id);
     }
 
-    public void deleteUserByUid(String uid) {
-        userRepository.deleteUserById(uid);
+    public void deleteByUid(String uid) {
+        userRepository.deleteByUid(uid);
     }
 
-    public void deleteUserById(String id) {
-        userRepository.deleteUserById(id);
+    public void deleteById(String id) {
+        userRepository.deleteById(id);
     }
 
     public void save(User user) {

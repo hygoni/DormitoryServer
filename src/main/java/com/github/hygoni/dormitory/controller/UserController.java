@@ -11,24 +11,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
-    private JwtTokenProvider jwtTokenProvider;
-    private ResponseService responseService;
-    private PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final ResponseService responseService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public CommonResult register(@RequestParam String uid, @RequestParam String password,
-                                 @RequestParam String gender, @RequestParam int buildingNumber) {
+    public CommonResult register(@RequestBody Map<String, String> payload) {
         userService.save(User.builder()
-        .uid(uid)
-        .password(passwordEncoder.encode(password))
-        .gender(gender)
-        .buildingNumber(buildingNumber)
+        .uid(payload.get("uid"))
+        .password(passwordEncoder.encode(payload.get("password")))
+        .gender(payload.get("gender"))
+        .buildingNumber(Integer.parseInt(payload.get("building_number")))
         .build()
         );
 
@@ -36,9 +37,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public SingleResult<String> login(@RequestParam String uid, @RequestParam String password){
-        User user = userService.findUserByUid(uid).orElseThrow(LoginException::new);
-        if(!passwordEncoder.matches(password, user.getPassword())){
+    public SingleResult<String> login(@RequestBody Map<String, String> payload){
+        User user = userService.findByUid(payload.get("uid")).orElseThrow(LoginException::new);
+        if(!passwordEncoder.matches(payload.get("password"), user.getPassword())){
             throw new LoginException();
         }
         

@@ -2,6 +2,7 @@ package com.github.hygoni.dormitory.advice;
 
 import com.github.hygoni.dormitory.advice.exception.LoginException;
 import com.github.hygoni.dormitory.model.CommonResult;
+import com.github.hygoni.dormitory.service.MessageService;
 import com.github.hygoni.dormitory.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class ExceptionManager {
     private final ResponseService responseService;
-    private final MessageSource messageSource;
+    private final MessageService messageService;
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -31,10 +32,7 @@ public class ExceptionManager {
     }
 
     private String getMessage(String code){
-        return getMessage(code, null);
+        return messageService.getMessage(code);
     }
 
-    private String getMessage(String code, Object[] args){
-        return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
-    }
 }
