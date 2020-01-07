@@ -1,27 +1,48 @@
 package com.github.hygoni.dormitory.controller;
 
+import com.github.hygoni.dormitory.advice.exception.LoginException;
+import com.github.hygoni.dormitory.model.CommonResult;
+import com.github.hygoni.dormitory.model.SingleResult;
 import com.github.hygoni.dormitory.model.User;
+import com.github.hygoni.dormitory.security.JwtTokenProvider;
+import com.github.hygoni.dormitory.service.ResponseService;
 import com.github.hygoni.dormitory.service.UserService;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private UserService userService;
+    private JwtTokenProvider jwtTokenProvider;
+    private ResponseService responseService;
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.saveUser(user);
+    public CommonResult register(@RequestParam String uid, @RequestParam String password,
+                                 @RequestParam String gender, @RequestParam int buildingNumber) {
+        userService.save(User.builder()
+        .uid(uid)
+        .password(passwordEncoder.encode(password))
+        .gender(gender)
+        .buildingNumber(buildingNumber)
+        .build()
+        );
+
+        return responseService.getSuccessResult();
     }
 
-    @GetMapping("/get/{id}")
-    public User getUser(@PathVariable String id){
-        return userService.findUserById(id);
+    @PostMapping("/login")
+    public SingleResult<String> login(@RequestParam String uid, @RequestParam String password){
+        User user = userService.findUserByUid(uid).orElseThrow(LoginException::new);
+        if(!passwordEncoder.matches(password, user.getPassword())){
+            throw new LoginException();
+        }
+        
+        //토큰을 생성하여 SingleResult로 전송 "data" : "token"
+        return responseService.getSingleResult(jwtTokenProvider.createToken(user.getUsername(), user.getRoles()));
     }
 }
