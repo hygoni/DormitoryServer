@@ -5,6 +5,8 @@ import com.github.hygoni.dormitory.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     @Autowired
@@ -13,7 +15,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findUserById(String id){
+    public Optional<User> findUserById(String id){
        return userRepository.findUserById(id);
     }
 
