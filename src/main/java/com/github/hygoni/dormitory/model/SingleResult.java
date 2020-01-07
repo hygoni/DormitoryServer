@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class SingleResult<T> extends CommonResult {
-    T data;
+    private T data;
 }
