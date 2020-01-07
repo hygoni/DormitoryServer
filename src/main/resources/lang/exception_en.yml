@@ -1,0 +1,7 @@
+# exception_en.yml
+unknown:
+  code: "-500"
+  msg: "An unknown error has occurred."
+loginException:
+  code: "-404"
+  msg: "The username or password is incorrect"
