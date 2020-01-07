@@ -1,6 +1,7 @@
 package com.github.hygoni.dormitory.service;
 
 import com.github.hygoni.dormitory.model.CommonResult;
+import com.github.hygoni.dormitory.model.SingleResult;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +28,13 @@ public class ResponseService {
 
     public CommonResult getSuccessResult() {
         CommonResult result = new CommonResult();
+        setSuccessResult(result);
+        return result;
+    }
+
+    public <T> SingleResult<T> getSingleResult(T data) {
+        SingleResult<T> result = new SingleResult<>();
+        result.setData(data);
         setSuccessResult(result);
         return result;
     }
