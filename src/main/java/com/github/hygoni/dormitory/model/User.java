@@ -34,6 +34,10 @@ public class User implements UserDetails {
     @JsonProperty("nickname")
     String nickname;
 
+    @Column(name = "gender")
+    @JsonProperty("gender")
+    String gender;
+
     @Column(name = "building_number")
     @JsonProperty("building_number")
     int buildingNumber;
@@ -46,6 +50,11 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return uid;
     }
 
     @Override
