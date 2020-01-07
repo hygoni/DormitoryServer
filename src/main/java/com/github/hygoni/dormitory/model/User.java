@@ -1,23 +1,30 @@
 package com.github.hygoni.dormitory.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name="users")
 @Getter
 @Setter
-public class User {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class User implements UserDetails {
     @Id
-    @GeneratedValue
-    int identity;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long privateKey;
 
     @Column(name = "id")
     @JsonProperty("id")
-    String id;
+    String username;
 
     @Column(name = "password")
     @JsonProperty("password")
@@ -30,4 +37,34 @@ public class User {
     @Column(name = "building_number")
     @JsonProperty("building_number")
     int buildingNumber;
+
+    @Builder.Default
+    @ElementCollection
+    private List<String> roles = new ArrayList<>();
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
