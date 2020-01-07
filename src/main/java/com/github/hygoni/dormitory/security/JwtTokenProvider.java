@@ -1,6 +1,5 @@
-package com.github.hygoni.dormitory.controller.security;
+package com.github.hygoni.dormitory.security;
 
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithmSpi;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
