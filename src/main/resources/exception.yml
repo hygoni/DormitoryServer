@@ -1,0 +1,7 @@
+# exception_en.yml
+unknown:
+  code: "-500"
+  msg: "알 수 없는 오류가 발생했습니다."
+loginException:
+  code: "-404"
+  msg: "아이디 또는 패스워드가 잘못 되었습니다."
