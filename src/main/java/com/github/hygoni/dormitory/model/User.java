@@ -22,9 +22,9 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long privateKey;
 
-    @Column(name = "id")
-    @JsonProperty("id")
-    String username;
+    @Column(name = "uid")
+    @JsonProperty("uid")
+    String uid;
 
     @Column(name = "password")
     @JsonProperty("password")
