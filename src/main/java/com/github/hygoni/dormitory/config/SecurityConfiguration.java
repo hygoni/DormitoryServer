@@ -1,7 +1,7 @@
 package com.github.hygoni.dormitory.config;
 
-import com.github.hygoni.dormitory.controller.security.JwtAuthenticationFilter;
-import com.github.hygoni.dormitory.controller.security.JwtTokenProvider;
+import com.github.hygoni.dormitory.security.JwtAuthenticationFilter;
+import com.github.hygoni.dormitory.security.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
