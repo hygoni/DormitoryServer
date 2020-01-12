@@ -26,7 +26,7 @@ public class ExceptionManager {
     }
 
     @ExceptionHandler(LoginException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     protected CommonResult loginException(HttpServletRequest request) {
         return responseService.getFailResult(Integer.parseInt(getMessage("loginException.code")), getMessage("loginException.msg"));
     }
