@@ -83,7 +83,7 @@ public class Article implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "article_id")
-    private List<Comment> comments = new ArrayList<>();
+    //private List<Comment> comments = new ArrayList<>();
 
 //    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
 //    @JoinColumn(name = "article_id")
