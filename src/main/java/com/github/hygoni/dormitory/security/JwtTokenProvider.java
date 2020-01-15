@@ -1,5 +1,6 @@
 package com.github.hygoni.dormitory.security;
 
+import com.github.hygoni.dormitory.service.CustomUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Component
@@ -49,13 +51,14 @@ public class JwtTokenProvider {
 
     //Jwt 토큰으로 인증 정보 조회
     public Authentication getAuthentication(String token) {
+        String userPk = this.getUserPk(token);
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     //RequestHeader에서 token 가져옴
     public String resolveToken(HttpServletRequest req){
-        return req.getHeader("X-AUTH_TOKEN");
+        return req.getHeader("X-AUTH-TOKEN");
     }
 
     //Jwt 토큰에서 회원 고유 정보 추출
