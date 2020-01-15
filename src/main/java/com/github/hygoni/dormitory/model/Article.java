@@ -66,7 +66,7 @@ public class Article {
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "username", referencedColumnName = "username", nullable = true, insertable = false, updatable = false)
+    @JoinColumn(name = "uid", referencedColumnName = "uid", nullable = true, insertable = false, updatable = false)
     private User user;
 
     public static Article createFromRequest(ObjectNode requestBody){
