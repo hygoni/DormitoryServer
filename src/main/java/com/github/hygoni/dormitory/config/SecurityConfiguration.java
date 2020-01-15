@@ -25,6 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
                 .httpBasic().disable() //rest api는 기본 설정 안함.
                 .csrf().disable() //CSRF 보안도 rest api는 필요 없음
@@ -33,8 +34,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
-                        .anyRequest().hasRole("USER")
+                        .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class); //Jwt 필터를 UsernamePasswordAuthenticationFilter 앞에 적용해야 함.
+
+
     }
 }

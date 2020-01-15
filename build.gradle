@@ -15,6 +15,7 @@ configurations {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -30,6 +31,7 @@ dependencies {
     implementation 'net.rakugakibox.util:yaml-resource-bundle:1.1'
     //implementation 'it.ozimov:embedded-redis:0.7.2'
     implementation 'com.google.code.gson:gson'
+    compile "io.springfox:springfox-swagger2:2.9.2"
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
