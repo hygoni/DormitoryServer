@@ -59,7 +59,6 @@ public class ArticleMsg {
         articleMsg.setCreatedAt((article.getCreatedAt()));
         articleMsg.setUpdatedAt((article.getUpdatedAt()));
         articleMsg.setBoardId(article.getBoardId());
-        articleMsg.setAuthor(article.getUser());
         articleMsg.setIsDeleted(article.getIsDeleted());
 
         List<CommentMsg> commentMsgs=new ArrayList<>();

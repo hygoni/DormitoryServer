@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "article")
@@ -22,12 +23,8 @@ public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    Integer id;
-
-    @org.hibernate.annotations.Generated(GenerationTime.INSERT)
-    @Column(name = "no")
-    int no;
+    @Column(name = "id", nullable = false)
+    int id;
 
     //댓글의 갯수
     @Column(name = "depth")
@@ -65,24 +62,25 @@ public class Article {
     @JoinColumn(name = "article_id")
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "uid", referencedColumnName = "uid", nullable = true, insertable = false, updatable = false)
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "uid", referencedColumnName = "uid", nullable = true, insertable = false, updatable = false)
+//    private User user;
 
-    public static Article createFromRequest(ObjectNode requestBody){
-        Article article=new Article();
-        if(requestBody.has("id")){
-            article.setId(requestBody.get("id").asInt());
-        }
-        else{
+    public static Article createFromRequest(Map<String, String> payload){
+        Article article = new Article();
+
+        if(payload.containsKey("id")){
+            article.setId(Integer.parseInt(payload.get("id")));
+        } else{
             article.setCreatedAt(LocalDateTime.now());
         }
-        String username=requestBody.get("username").asText();
-        String title=requestBody.get("title").asText();
-        String content=requestBody.get("content").asText();
-        int boardId=1;
-        if (requestBody.has("type")){
-            boardId = requestBody.get("type").asInt();
+
+        String username = payload.get("username");
+        String title = payload.get("title");
+        String content = payload.get("content");
+        int boardId = 1;
+        if (payload.containsKey("type")){
+            boardId = Integer.parseInt(payload.get("type"));
         }//categoryId
         article.setUsername(username);
         article.setSubject(title);

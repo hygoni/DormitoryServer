@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentService {
@@ -33,11 +34,12 @@ public class CommentService {
         List<Comment> comments=commentRepository.selectCommentByArticleOrder(articleId);
         return convertToCommentMsg(comments);
     }
-    public void saveByRequest(ObjectNode request){
-        String userId = request.get("username").asText();
-        int articleId=request.get("article_id").asInt();
-        String content=request.get("content").asText();
-        Comment comment=Comment.create(userId,articleId,content);
+    public void saveByRequest(Map<String, String> payload){
+        String userId = payload.get("username");
+        int articleId = Integer.parseInt(payload.get("article_id"));
+        String content = payload.get("content");
+        Comment comment = Comment.create(userId,articleId,content);
+        
         try{
             commentRepository.insertByRequest(articleId,userId,content);
         }

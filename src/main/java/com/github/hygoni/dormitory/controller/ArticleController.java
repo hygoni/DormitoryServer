@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.net.http.HttpHeaders;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -18,32 +19,32 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
-    @RequestMapping("/boards")
+    @PostMapping("/boards")
     public List<ArticleMsg> showArticle(){
         return articleService.showArticleMsg();
     }
 
-    @GetMapping("/articles/{id}")
+    @PostMapping("/articles/{id}")
     public ArticleMsg showArticleList(@PathVariable int id){
         return articleService.showArticleMsgById(id);
     }
 
-    @PostMapping("/articles")
+    @PostMapping("/updateArticle")
     public boolean updateArticle(@RequestBody ObjectNode requestBody){
-        Article article=articleService.updateArticle(requestBody);
+        Article article = articleService.updateArticle(requestBody);
         return true;
     }
 
-    @PutMapping("/articles")
+    @PostMapping("/writeArticle")
     @Transactional
-    public boolean insertArticle(@RequestBody ObjectNode requestBody){
-        Article article=Article.createFromRequest(requestBody);
+    public boolean insertArticle(@RequestBody Map<String, String> payload){
+        Article article = Article.createFromRequest(payload);
         articleService.saveArticle(article);
         return true;
     }
 
-    @DeleteMapping("/articles")
-    public boolean deleteArticle(@RequestParam int id, @RequestHeader HttpHeaders headers){
+    @PostMapping("/deleteArticle")
+    public boolean deleteArticle(@RequestParam int id){
         return articleService.deleteArticle(id);
     }
 }

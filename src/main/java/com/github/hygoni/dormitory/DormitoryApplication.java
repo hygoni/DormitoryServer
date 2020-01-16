@@ -16,6 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class DormitoryApplication {
 
     public static void main(String[] args) {
+//        SpringApplication application = new SpringApplication(DormitoryApplication.class);
+//        application.addListeners(new ApplicationPidFileWriter());
+//        application.run(args);
         SpringApplication.run(DormitoryApplication.class, args);
     }
 

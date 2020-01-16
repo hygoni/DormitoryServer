@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.hygoni.dormitory.message.ArticleMsg;
 import com.github.hygoni.dormitory.model.Article;
 import com.github.hygoni.dormitory.repository.ArticleRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,11 @@ import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@RequiredArgsConstructor
 @Service
 public class ArticleService {
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
     private List<ArticleMsg> convertArticles(List<Article>articles){
         List<ArticleMsg> articleMsgs=new ArrayList<>();
@@ -29,18 +32,18 @@ public class ArticleService {
 
     }
     public List<ArticleMsg> showArticleMsg(){
-        List<Article> articles=articleRepository.selectArticles(30);
+        List<Article> articles = articleRepository.findAll();
         return convertArticles(articles);
     }
     public ArticleMsg showArticleMsgById(int id){
-        Article article=articleRepository.findById(id).get();
+        Article article = articleRepository.findById(id).get();
         return ArticleMsg.create(article);
 
     }
     public Article updateArticle(ObjectNode objectNode){
         int id=objectNode.get("id").asInt();
 
-        Article article=articleRepository.findById(id).get();
+        Article article = articleRepository.findById(id).get();
         article.setSubject(objectNode.get("title").asText());
         article.setContent(objectNode.get("content").asText());
         articleRepository.save(article);
@@ -50,13 +53,11 @@ public class ArticleService {
 
     public boolean saveArticle(Article article){
         articleRepository.save(article);
-        article.setNo(article.getId());
-        articleRepository.save(article);
         return true;
     }
 
     public boolean deleteArticle(int articleId){
-        String username=(String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (username.equals(articleRepository.getOne(articleId).getUsername())) {
             articleRepository.updateIsDeletedArticle(articleId);
             return true;
