@@ -1,0 +1,131 @@
+<script src="js/plugin/sweetalert.min.js"></script>
+
+<header class="header-area fixed-top">
+    <!-- Main Header Start -->
+    <div class="main-header-area">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <!-- Classy Menu -->
+                <nav class="classy-navbar justify-content-between" id="alimeNav">
+                    <!-- Logo -->
+                    <a class="nav-brand" href="/index">
+                        <div style="color:antiquewhite">ANA</div>
+                    </a>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+                        <!-- Menu Close Button -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <div class="menu-profile" id="menuProfile" style="background: whitesmoke">
+                                유저란 입니다.
+                                <div> 하하하하</div>
+                                <div> 하하하하</div>
+                            </div>
+                            <ul id="nav">
+                                <li><a href="#">자료실</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/index">- Home</a></li>
+                                        <li><a href="/about">- About</a></li>
+                                        <li><a href="/blog">- Blog</a></li>
+                                        <li><a href="/gallery">- Gallery</a></li>
+                                        <li><a href="/board">- Board</a></li>
+                                        <li><a href="/article?id=1">- Article Test</a></li>
+                                        <li><a href="/contact">- Contact</a></li>
+                                        <li><a href="/opensource">- Open Source</a></li>
+
+                                        <li><a href="#">- Mento</a>
+                                            <ul class="dropdown">
+                                                <li><a href="https://github.com/inspire12" target="_blank">-
+                                                    inspire12</a></li>
+                                                <li><a href="https://github.com/willook" target="_blank">- willook</a>
+                                                </li>
+                                                <li><a href="https://github.com/MoonDD99" target="_blank">- MoonDD99</a>
+                                                </li>
+                                                <li><a href="https://github.com/Sinyoung3016" target="_blank">- Sinyoung</a></li>
+                                                <li><a href="https://github.com/hygoni" target="_blank">- hygoni</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li><a href="#">게시판</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/board">- All</a></li>
+                                        <li><a href="/board?type=1">- 잡담</a></li>
+                                        <li><a href="/board?type=2">- 정보</a></li>
+                                        <li><a href="/board?type=3">- 스터디</a></li>
+                                        <li><a href="/board?type=4">- 알고리즘</a></li>
+                                        <li><a href="/board?type=5">- AI</a></li>
+                                        <li><a href="/board?type=6">- 개발지식</a></li>
+                                    </ul>
+                                </li>
+
+                                <li><a href="#">Lab</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/algorithm">- Algorithm</a></li>
+                                        <li><a href="/ai">- AI</a></li>
+                                        <li><a href="/gan-style">- AI-GAN</a></li>
+                                        <li><a href="/gif">- Gif</a></li>
+                                    </ul>
+                                </li>
+                                <li class="text-right text-white margin-10 cursor-pointer" sec:authorize="!isAuthenticated()">
+                                    <a href="#"><i class="fa fa-user-circle-o" onclick="window.location.href='/signup#signInForm'">
+                                        Login
+                                    </i></a>
+                                </li>
+                                <li class="cursor-pointer" sec:authorize="isAuthenticated()">
+                                    <a href="#"><i class="fa fa-user-circle-o form-submit" id="userProfile"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        User</i>
+                                    </a>
+                                    <ul>
+                                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+
+                            <!-- Search Icon -->
+                            <div class="search-icon flex-vertical-center margin-10" data-toggle="modal"
+                                 data-target="#searchModal"><i class="ti-search"></i></div>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script th:inline="javascript">
+    activeSelectedInHeader();
+
+    function activeSelectedInHeader() {
+        let path = window.location.pathname;
+        let headerMenu = document.getElementById("nav");
+        for (let i = 0; i < headerMenu.childElementCount; i++) {
+            let menu = headerMenu.children[i];
+            if (menu.textContent.toLowerCase() === 'home' && (path === '/index' || path === '/')) {
+                menu.classList.add("active");
+                return
+            }
+            if (path.slice(1, path.length) === menu.textContent.toLowerCase()) {
+                menu.classList.add("active");
+                return;
+            }
+        }
+    }
+
+</script>
+<!-- Header Area End -->
