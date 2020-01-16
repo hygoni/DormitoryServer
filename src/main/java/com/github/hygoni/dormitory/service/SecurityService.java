@@ -1,5 +1,6 @@
 package com.github.hygoni.dormitory.service;
 
+<<<<<<< HEAD
 import com.github.hygoni.dormitory.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,4 +17,7 @@ public class SecurityService {
         return username;
     }
 
+=======
+public class SecurityService {
+>>>>>>> remove unused configuration
 }
