@@ -29,7 +29,7 @@ public class ArticleMsg {
 
     @JsonProperty("author")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    User author;
+    String author;
 
     @JsonProperty("comments")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -50,7 +50,7 @@ public class ArticleMsg {
     Boolean isDeleted;
 
     public static ArticleMsg create(Article article){
-        ArticleMsg articleMsg=new ArticleMsg();
+        ArticleMsg articleMsg = new ArticleMsg();
         articleMsg.setId(article.getId());
         articleMsg.setCategory(ArticleUtil.getArticleCategory(article.getId()));
         articleMsg.setDepth(article.getDepth());
@@ -60,6 +60,7 @@ public class ArticleMsg {
         articleMsg.setUpdatedAt((article.getUpdatedAt()));
         articleMsg.setBoardId(article.getBoardId());
         articleMsg.setIsDeleted(article.getIsDeleted());
+        articleMsg.setAuthor(article.getUsername());
 
         List<CommentMsg> commentMsgs=new ArrayList<>();
         for(Comment comment:article.getComments()){
