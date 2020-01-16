@@ -20,9 +20,12 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+<<<<<<< HEAD
     @Autowired
     SecurityService securityService;
 
+=======
+>>>>>>> modify comments
     @PostMapping("/boards")
     public List<ArticleMsg> showArticle(){
         return articleService.showArticleMsg();
@@ -41,10 +44,15 @@ public class ArticleController {
 
     @PostMapping("/writeArticle")
     @Transactional
+<<<<<<< HEAD
     public boolean insertArticle(HttpServletRequest request, @RequestBody Map<String, String> payload){
         String username = securityService.getUsername(request);
         Article article = Article.createFromRequest(payload);
         article.setUsername(username);
+=======
+    public boolean insertArticle(@RequestBody Map<String, String> payload){
+        Article article = Article.createFromRequest(payload);
+>>>>>>> modify comments
         articleService.saveArticle(article);
         return true;
     }

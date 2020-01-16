@@ -75,6 +75,10 @@ public class Article {
             article.setCreatedAt(LocalDateTime.now());
         }
 
+<<<<<<< HEAD
+=======
+        String username = payload.get("username");
+>>>>>>> modify comments
         String title = payload.get("title");
         String content = payload.get("content");
         int boardId = 1;
