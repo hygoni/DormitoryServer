@@ -8,10 +8,14 @@ import com.github.hygoni.dormitory.security.JwtTokenProvider;
 import com.github.hygoni.dormitory.service.ResponseService;
 import com.github.hygoni.dormitory.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -30,6 +34,7 @@ public class UserController {
         .password(passwordEncoder.encode(payload.get("password")))
         .gender(payload.get("gender"))
         .buildingNumber(Integer.parseInt(payload.get("building_number")))
+        .roles(Collections.singletonList("ROLE_USER"))
         .build()
         );
 
@@ -45,5 +50,17 @@ public class UserController {
         
         //토큰을 생성하여 SingleResult로 전송 "data" : "token"
         return responseService.getSingleResult(jwtTokenProvider.createToken(user.getUsername(), user.getRoles()));
+    }
+
+    @PostMapping("/getUser")
+    public Optional<User> getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String id = authentication.getName();
+        return userService.findByUid(id);
+    }
+
+    @PostMapping("/test")
+    public Optional<User> test(@RequestBody Map<String, String> payload) {
+        return userService.findByUid(payload.get("uid"));
     }
 }
