@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class DormitoryApplication {
-
     public static void main(String[] args) {
 //        SpringApplication application = new SpringApplication(DormitoryApplication.class);
 //        application.addListeners(new ApplicationPidFileWriter());
