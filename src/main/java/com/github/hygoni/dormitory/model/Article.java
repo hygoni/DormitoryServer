@@ -75,14 +75,13 @@ public class Article {
             article.setCreatedAt(LocalDateTime.now());
         }
 
-        String username = payload.get("username");
         String title = payload.get("title");
         String content = payload.get("content");
         int boardId = 1;
         if (payload.containsKey("type")){
             boardId = Integer.parseInt(payload.get("type"));
         }//categoryId
-        article.setUsername(username);
+
         article.setSubject(title);
         article.setContent(content);
         article.setBoardId(boardId);
