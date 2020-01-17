@@ -1,6 +1,9 @@
 package com.github.hygoni.dormitory.advice;
 
+import com.github.hygoni.dormitory.advice.exception.DuplicateObjectException;
 import com.github.hygoni.dormitory.advice.exception.LoginException;
+import com.github.hygoni.dormitory.advice.exception.UserNotFoundException;
+import com.github.hygoni.dormitory.advice.exception.WasherNotFoundException;
 import com.github.hygoni.dormitory.model.CommonResult;
 import com.github.hygoni.dormitory.service.MessageService;
 import com.github.hygoni.dormitory.service.ResponseService;
@@ -29,6 +32,24 @@ public class ExceptionManager {
     @ResponseStatus(HttpStatus.OK)
     protected CommonResult loginException(HttpServletRequest request) {
         return responseService.getFailResult(Integer.parseInt(getMessage("loginException.code")), getMessage("loginException.msg"));
+    }
+
+    @ExceptionHandler(WasherNotFoundException.class)
+    @ResponseStatus(HttpStatus.OK)
+    protected CommonResult washerNotFoundException(HttpServletRequest request) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("washerNotFoundException.code")), getMessage("washerNotFoundException.msg"));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.OK)
+    protected CommonResult userNotFoundException(HttpServletRequest request) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("userNotFoundException.code")), getMessage("userNotFoundException.msg"));
+    }
+
+    @ExceptionHandler(DuplicateObjectException.class)
+    @ResponseStatus(HttpStatus.OK)
+    protected CommonResult duplicateObjectException(HttpServletRequest request) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("duplicateObjectException.code")), getMessage("duplicateObjectException.msg"));
     }
 
     private String getMessage(String code){
