@@ -7,11 +7,13 @@ import com.github.hygoni.dormitory.model.CommonResult;
 import com.github.hygoni.dormitory.service.CommentService;
 
 import com.github.hygoni.dormitory.service.ResponseService;
+import com.github.hygoni.dormitory.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -22,25 +24,23 @@ public class CommentController {
     CommentService commentService;
 
     @Autowired
-    ObjectMapper objectMapper;
-
-    @Autowired
     ResponseService responseService;
 
-    @PostMapping("/writeComments")
-    public CommonResult saveComment(@RequestBody Map<String, String> payload){
-        commentService.saveByRequest(payload);
-//        ObjectNode responseBody = objectMapper.createObjectNode();
-//        List<CommentMsg> comments = commentService.getComments(requestBody.get("article_id").asInt());
-//        responseBody.putPOJO("comments",comments);
+    @Autowired
+    SecurityService securityService;
+
+    @PostMapping("/writeComment")
+    public CommonResult saveComment(HttpServletRequest request, @RequestBody Map<String, String> payload){
+        String uid = securityService.getUsername(request);
+        payload.put("uid", uid);
+        commentService.save(payload);
         return responseService.getSuccessResult();
     }
 
-    @PostMapping("/readComments")
-    public List<CommentMsg> readComment(@RequestParam("id") int id) {
+    @PostMapping("/readComment")
+    public List<CommentMsg> readComment(@RequestBody Map<String, String> payload) {
+        int id = Integer.parseInt(payload.get("article_id"));
         List<CommentMsg> comments = commentService.getComments(id);
         return comments;
     }
-
-
 }
