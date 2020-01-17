@@ -3,31 +3,32 @@ package com.github.hygoni.dormitory.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(name="users")
+@Table(name="user")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    int id;
 
     @Column(name = "uid")
     @JsonProperty("uid")
     String uid;
 
     @Column(name = "password")
-    @JsonProperty("password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     String password;
 
     @Column(name = "nickname")
@@ -43,41 +44,50 @@ public class User implements UserDetails {
     int buildingNumber;
 
     @Builder.Default
-    @ElementCollection
-    private List<String> roles = new ArrayList<>();
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<String> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        for(String role : roles){
+            list.add(new SimpleGrantedAuthority(role));
+        }
+        return list;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getUsername() {
         return uid;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return password;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isAccountNonExpired() {
         return false;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isAccountNonLocked() {
         return false;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isCredentialsNonExpired() {
         return false;
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isEnabled() {
         return false;
     }
