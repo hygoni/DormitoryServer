@@ -1,5 +1,6 @@
 package com.github.hygoni.dormitory.controller;
 
+import com.github.hygoni.dormitory.advice.exception.DuplicateObjectException;
 import com.github.hygoni.dormitory.advice.exception.LoginException;
 import com.github.hygoni.dormitory.model.CommonResult;
 import com.github.hygoni.dormitory.model.SingleResult;
@@ -29,6 +30,11 @@ public class UserController {
 
     @PostMapping("/register")
     public CommonResult register(@RequestBody Map<String, String> payload) {
+        Optional<User> user = userService.findByUid(payload.get("uid"));
+        if(user.isPresent()){
+            throw new DuplicateObjectException();
+        }
+
         userService.save(User.builder()
         .uid(payload.get("uid"))
         .password(passwordEncoder.encode(payload.get("password")))
