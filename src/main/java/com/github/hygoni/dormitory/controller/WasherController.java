@@ -39,8 +39,15 @@ public class WasherController {
     }
 
     @PostMapping("getWashers")
-    public List<Washer> getWashers(@RequestBody Map<String, String> payload) {
+    public List<Washer> getWashers() {
+        return washerService.findAll();
+    }
+
+    @PostMapping("startWasher")
+    public CommonResult startWasher(@RequestBody Map<String, String> payload) {
         int buildingNumber = Integer.parseInt(payload.get("building_number"));
-        return washerService.findAllByBuildingNumber(buildingNumber);
+        int subId = Integer.parseInt(payload.get("sub_id"));
+        washerService.start(buildingNumber, subId);
+        return responseService.getSuccessResult();
     }
 }

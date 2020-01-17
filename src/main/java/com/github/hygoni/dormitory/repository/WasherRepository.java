@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WasherRepository extends JpaRepository<Washer, Integer> {
-    List<Washer> findAllByBuildingNumber(int buildingNumber);
+    List<Washer> findAll();
     void deleteAll();
-    Washer findByBuildingNumberAndSubId(int buildingNumber, int subId);
+    Optional<Washer> findByBuildingNumberAndSubId(int buildingNumber, int subId);
     Washer save(Washer washer);
 }

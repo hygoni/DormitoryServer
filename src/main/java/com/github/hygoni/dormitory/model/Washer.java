@@ -1,9 +1,7 @@
 package com.github.hygoni.dormitory.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -14,6 +12,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Washer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,4 +36,10 @@ public class Washer {
     //in minutes
     int workingTime;
 
+    @JsonProperty("is_working")
+    public boolean isWorking() {
+        long now = System.currentTimeMillis() / 1000;
+        long expiration = lastStarted + workingTime * 60;
+        return now < expiration;
+    }
 }
