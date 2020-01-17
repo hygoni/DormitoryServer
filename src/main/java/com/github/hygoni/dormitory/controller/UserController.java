@@ -7,6 +7,7 @@ import com.github.hygoni.dormitory.model.SingleResult;
 import com.github.hygoni.dormitory.model.User;
 import com.github.hygoni.dormitory.security.JwtTokenProvider;
 import com.github.hygoni.dormitory.service.ResponseService;
+import com.github.hygoni.dormitory.service.SecurityService;
 import com.github.hygoni.dormitory.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -27,6 +29,7 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final ResponseService responseService;
     private final PasswordEncoder passwordEncoder;
+    private final SecurityService securityService;
 
     @PostMapping("/register")
     public CommonResult register(@RequestBody Map<String, String> payload) {
@@ -39,6 +42,7 @@ public class UserController {
         .uid(payload.get("uid"))
         .password(passwordEncoder.encode(payload.get("password")))
         .gender(payload.get("gender"))
+        .nickname(payload.get("nickname"))
         .buildingNumber(Integer.parseInt(payload.get("building_number")))
         .roles(Collections.singletonList("ROLE_USER"))
         .build()
@@ -59,10 +63,9 @@ public class UserController {
     }
 
     @GetMapping("/getUser")
-    public Optional<User> getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String id = authentication.getName();
-        return userService.findByUid(id);
+    public Optional<User> getUser(HttpServletRequest request) {
+        String uid = securityService.getUsername(request);
+        return userService.findByUid(uid);
     }
 
     @PostMapping("/test")

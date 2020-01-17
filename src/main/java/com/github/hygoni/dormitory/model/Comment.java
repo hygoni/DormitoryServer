@@ -16,14 +16,15 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     @Column(name="article_id")
-    @JsonProperty("artice_id")
+    @JsonProperty("article_id")
     int articleId;
 
-    @JsonProperty("username")
-    String username;
+    @JsonProperty("uid")
+    String uid;
 
     @Column(name="no")
     int no;
@@ -36,24 +37,19 @@ public class Comment {
     String content;
 
     @Column(name = "created_at")
-    @CreationTimestamp
     @JsonProperty("created_at")
-    LocalDateTime createdAt;
+    long createdAt;
 
     @Column(name = "updated_at")
-    @UpdateTimestamp
     @JsonProperty("updated_at")
-    LocalDateTime updatedAt;
+    long updatedAt;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", insertable = false, updatable = false)
-    private User user = new User();
-
-    public static Comment create(String username, int articleId, String content) {
+    public static Comment create(String uid, int articleId, String content) {
         Comment comment = new Comment();
         comment.setArticleId(articleId);
-        comment.setUsername(username);
+        comment.setUid(uid);
         comment.setContent(content);
+        comment.setCreatedAt(System.currentTimeMillis() / 1000);
         return comment;
     }
 

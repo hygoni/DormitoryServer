@@ -40,12 +40,10 @@ public class ArticleController {
     }
 
     @PostMapping("/writeArticle")
-    @Transactional
-
     public boolean insertArticle(HttpServletRequest request, @RequestBody Map<String, String> payload){
-        String username = securityService.getUsername(request);
+        String uid = securityService.getUsername(request);
+        payload.put("uid", uid);
         Article article = Article.createFromRequest(payload);
-        article.setUsername(username);
         articleService.saveArticle(article);
         return true;
     }

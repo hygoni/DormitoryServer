@@ -21,27 +21,28 @@ public class CommentService {
     @Autowired
     UserRepository userRepository;
 
+
     private List<CommentMsg> convertToCommentMsg(List<Comment> comments){
-        List<CommentMsg> commentMsgs=new ArrayList<>();
+        List<CommentMsg> commentMsgs = new ArrayList<>();
         for(Comment comment:comments){
-            CommentMsg commentMsg=CommentMsg.createCommentMsg(comment,userRepository.findById(comment.getId()).get());
+            CommentMsg commentMsg = CommentMsg.createCommentMsg(comment);
             commentMsgs.add(commentMsg);
         }
         return commentMsgs;
     }
 
     public List<CommentMsg> getComments(int articleId){
-        List<Comment> comments=commentRepository.selectCommentByArticleOrder(articleId);
+        List<Comment> comments = commentRepository.findAllByArticleId(articleId);
         return convertToCommentMsg(comments);
     }
-    public void saveByRequest(Map<String, String> payload){
-        String userId = payload.get("username");
+
+    public void save(Map<String, String> payload){
         int articleId = Integer.parseInt(payload.get("article_id"));
         String content = payload.get("content");
-        Comment comment = Comment.create(userId,articleId,content);
-        
+        String username = payload.get("uid");
+        Comment comment = Comment.create(username, articleId, content);
         try{
-            commentRepository.insertByRequest(articleId,userId,content);
+            commentRepository.save(comment);
         }
         catch (Exception e){
             e.printStackTrace();

@@ -56,7 +56,7 @@ public class ArticleService {
 
     public boolean deleteArticle(int articleId){
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (username.equals(articleRepository.getOne(articleId).getUsername())) {
+        if (username.equals(articleRepository.getOne(articleId).getUid())) {
             articleRepository.updateIsDeletedArticle(articleId);
             return true;
         }
