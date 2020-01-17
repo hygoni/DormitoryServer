@@ -23,12 +23,12 @@ public class ArticleController {
     @Autowired
     SecurityService securityService;
 
-    @PostMapping("/boards")
+    @GetMapping("/boards")
     public List<ArticleMsg> showArticle(){
         return articleService.showArticleMsg();
     }
 
-    @PostMapping("/articles/{id}")
+    @GetMapping("/articles/{id}")
     public ArticleMsg showArticleList(@PathVariable int id){
         return articleService.showArticleMsgById(id);
     }

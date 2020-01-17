@@ -5,10 +5,7 @@ import com.github.hygoni.dormitory.model.Washer;
 import com.github.hygoni.dormitory.service.ResponseService;
 import com.github.hygoni.dormitory.service.WasherService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -38,7 +35,7 @@ public class WasherController {
         return responseService.getSuccessResult();
     }
 
-    @PostMapping("getWashers")
+    @GetMapping("getWashers")
     public List<Washer> getWashers() {
         return washerService.findAll();
     }

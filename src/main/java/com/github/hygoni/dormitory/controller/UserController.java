@@ -58,7 +58,7 @@ public class UserController {
         return responseService.getSingleResult(jwtTokenProvider.createToken(user.getUsername(), user.getRoles()));
     }
 
-    @PostMapping("/getUser")
+    @GetMapping("/getUser")
     public Optional<User> getUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();
