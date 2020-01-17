@@ -20,7 +20,7 @@ public class CommentMsg {
     int articleId;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    User author;
+    String author;
 
     int no;
     int depth;
@@ -29,16 +29,16 @@ public class CommentMsg {
     String content;
 
     @JsonProperty("created_at")
-    LocalDateTime createdAt;
+    long createdAt;
 
     @JsonProperty("updated_at")
-    LocalDateTime updatedAt;
+    long updatedAt;
 
     public static CommentMsg create(Comment comment){
         CommentMsg commentMsg=new CommentMsg();
         commentMsg.setId(comment.getId());
         commentMsg.setArticleId(comment.getArticleId());
-        commentMsg.setAuthor(comment.getUser());
+        commentMsg.setAuthor(comment.getUid());
         commentMsg.setContent(comment.getContent());
         commentMsg.setNo(comment.getNo());
         commentMsg.setDepth(comment.getDepth());
@@ -46,9 +46,8 @@ public class CommentMsg {
         commentMsg.setUpdatedAt(comment.getUpdatedAt());
         return commentMsg;
     }
-    public static CommentMsg createCommentMsg(Comment comment,User user){
-        CommentMsg commentMsg=CommentMsg.create(comment);
-        commentMsg.setAuthor(user);
+    public static CommentMsg createCommentMsg(Comment comment){
+        CommentMsg commentMsg = CommentMsg.create(comment);
         return commentMsg;
     }
 }

@@ -42,29 +42,19 @@ public class Article {
 
     @Column(name="username")
     @JsonProperty("username")
-    String username;
+    String uid;
 
     @Column(name = "created_at")
-    @CreationTimestamp
     @JsonProperty("created_at")
-    LocalDateTime createdAt = LocalDateTime.now();
+    long createdAt;
 
     @Column(name = "updated_at")
-    @UpdateTimestamp
     @JsonProperty("updated_at")
-    LocalDateTime updatedAt = LocalDateTime.now();
+    long updatedAt;
 
     @Column(name = "board_id")
     @JsonProperty("board_id")
     int boardId;
-
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "article_id")
-    private List<Comment> comments = new ArrayList<>();
-
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "uid", referencedColumnName = "uid", nullable = true, insertable = false, updatable = false)
-//    private User user;
 
     public static Article createFromRequest(Map<String, String> payload){
         Article article = new Article();
@@ -72,9 +62,10 @@ public class Article {
         if(payload.containsKey("id")){
             article.setId(Integer.parseInt(payload.get("id")));
         } else{
-            article.setCreatedAt(LocalDateTime.now());
+            article.setCreatedAt(System.currentTimeMillis() / 1000);
         }
 
+        String uid = payload.get("uid");
         String title = payload.get("title");
         String content = payload.get("content");
         int boardId = 1;
@@ -85,8 +76,8 @@ public class Article {
         article.setSubject(title);
         article.setContent(content);
         article.setBoardId(boardId);
-        article.setUpdatedAt(LocalDateTime.now());
-
+        article.setUpdatedAt(System.currentTimeMillis() / 1000);
+        article.setUid(uid);
         return article;
     }
 }

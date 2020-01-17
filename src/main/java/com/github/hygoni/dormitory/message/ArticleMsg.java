@@ -31,15 +31,11 @@ public class ArticleMsg {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     String author;
 
-    @JsonProperty("comments")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    List<CommentMsg> comments;
-
     @JsonProperty("created_at")
-    LocalDateTime createdAt;
+    long createdAt;
 
     @JsonProperty("updated_at")
-    LocalDateTime updatedAt;
+    long updatedAt;
 
     @JsonProperty("board_id")
     int boardId;
@@ -60,13 +56,8 @@ public class ArticleMsg {
         articleMsg.setUpdatedAt((article.getUpdatedAt()));
         articleMsg.setBoardId(article.getBoardId());
         articleMsg.setIsDeleted(article.getIsDeleted());
-        articleMsg.setAuthor(article.getUsername());
+        articleMsg.setAuthor(article.getUid());
 
-        List<CommentMsg> commentMsgs=new ArrayList<>();
-        for(Comment comment:article.getComments()){
-            commentMsgs.add(CommentMsg.create(comment));
-        }
-        articleMsg.setComments(commentMsgs);
         return articleMsg;
 
     }
