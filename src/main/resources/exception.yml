@@ -4,7 +4,7 @@ unknown:
 loginException:
   code: "-404"
   msg: "아이디 또는 패스워드가 잘못 되었습니다."
-washerNotFound:
+washerNotFoundException:
   code: "-405"
   msg: "세탁기 / 건조기를 찾을 수 없습니다."
 userNotFoundException:
@@ -13,3 +13,6 @@ userNotFoundException:
 duplicateObjectException:
   code: "-407"
   msg: "중복된 객체를 생성할 수 없습니다."
+protectedObjectException:
+  code: "-408"
+  msg: "객체에 접근할 수 없습니다."

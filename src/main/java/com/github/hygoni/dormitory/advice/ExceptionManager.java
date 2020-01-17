@@ -1,9 +1,6 @@
 package com.github.hygoni.dormitory.advice;
 
-import com.github.hygoni.dormitory.advice.exception.DuplicateObjectException;
-import com.github.hygoni.dormitory.advice.exception.LoginException;
-import com.github.hygoni.dormitory.advice.exception.UserNotFoundException;
-import com.github.hygoni.dormitory.advice.exception.WasherNotFoundException;
+import com.github.hygoni.dormitory.advice.exception.*;
 import com.github.hygoni.dormitory.model.CommonResult;
 import com.github.hygoni.dormitory.service.MessageService;
 import com.github.hygoni.dormitory.service.ResponseService;
@@ -50,6 +47,12 @@ public class ExceptionManager {
     @ResponseStatus(HttpStatus.OK)
     protected CommonResult duplicateObjectException(HttpServletRequest request) {
         return responseService.getFailResult(Integer.parseInt(getMessage("duplicateObjectException.code")), getMessage("duplicateObjectException.msg"));
+    }
+
+    @ExceptionHandler(ProtectedObjectException.class)
+    @ResponseStatus(HttpStatus.OK)
+    protected CommonResult protectedObjectException(HttpServletRequest request) {
+        return responseService.getFailResult(Integer.parseInt(getMessage("protectedObjectException.code")), getMessage("protectedObjectException.msg"));
     }
 
     private String getMessage(String code){
