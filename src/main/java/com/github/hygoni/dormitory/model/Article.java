@@ -48,6 +48,10 @@ public class Article {
     @JsonProperty("author")
     String author;
 
+    @Column(name="category")
+    @JsonProperty("category")
+    String category;
+
     @Column(name = "created_at")
     @JsonProperty("created_at")
     long createdAt;
@@ -73,6 +77,8 @@ public class Article {
         String author = payload.get("author");
         String title = payload.get("title");
         String content = payload.get("content");
+        String category = payload.get("category");
+
         int boardId = 1;
         if (payload.containsKey("type")){
             boardId = Integer.parseInt(payload.get("type"));
@@ -84,6 +90,7 @@ public class Article {
         article.setUpdatedAt(System.currentTimeMillis() / 1000);
         article.setUid(uid);
         article.setAuthor(author);
+        article.setCategory(category);
         return article;
     }
 }
