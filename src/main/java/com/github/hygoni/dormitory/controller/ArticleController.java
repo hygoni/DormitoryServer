@@ -3,7 +3,9 @@ package com.github.hygoni.dormitory.controller;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.hygoni.dormitory.message.ArticleMsg;
 import com.github.hygoni.dormitory.model.Article;
+import com.github.hygoni.dormitory.model.CommonResult;
 import com.github.hygoni.dormitory.service.ArticleService;
+import com.github.hygoni.dormitory.service.ResponseService;
 import com.github.hygoni.dormitory.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ public class ArticleController {
     @Autowired
     SecurityService securityService;
 
+    @Autowired
+    ResponseService responseService;
+
     @GetMapping("/boards")
     public List<ArticleMsg> showArticle(){
         return articleService.showArticleMsg();
@@ -34,22 +39,23 @@ public class ArticleController {
     }
 
     @PostMapping("/updateArticle")
-    public boolean updateArticle(@RequestBody ObjectNode requestBody){
+    public CommonResult updateArticle(@RequestBody ObjectNode requestBody){
         Article article = articleService.updateArticle(requestBody);
-        return true;
+        return responseService.getSuccessResult();
     }
 
     @PostMapping("/writeArticle")
-    public boolean insertArticle(HttpServletRequest request, @RequestBody Map<String, String> payload){
+    public CommonResult insertArticle(HttpServletRequest request, @RequestBody Map<String, String> payload){
         String uid = securityService.getUsername(request);
         payload.put("uid", uid);
         Article article = Article.createFromRequest(payload);
         articleService.saveArticle(article);
-        return true;
+        return responseService.getSuccessResult();
     }
 
     @PostMapping("/deleteArticle")
-    public boolean deleteArticle(@RequestParam int id){
-        return articleService.deleteArticle(id);
+    public CommonResult deleteArticle(@RequestParam int id){
+        articleService.deleteArticle(id);
+        return responseService.getSuccessResult();
     }
 }
