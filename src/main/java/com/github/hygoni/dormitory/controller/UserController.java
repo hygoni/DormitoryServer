@@ -67,9 +67,5 @@ public class UserController {
         String uid = securityService.getUsername(request);
         return userService.findByUid(uid);
     }
-
-    @PostMapping("/test")
-    public Optional<User> test(@RequestBody Map<String, String> payload) {
-        return userService.findByUid(payload.get("uid"));
-    }
+    
 }
