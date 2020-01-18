@@ -8,9 +8,17 @@ import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.system.ApplicationPid;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.filter.CharacterEncodingFilter;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.Filter;
+import java.nio.charset.Charset;
+import java.util.TimeZone;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class DormitoryApplication {
@@ -25,4 +33,8 @@ public class DormitoryApplication {
     public PasswordEncoder passwordEncoder() { return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    @PostConstruct
+    void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+    }
 }
