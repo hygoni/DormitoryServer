@@ -40,9 +40,13 @@ public class Article {
     @Column(name = "content")  // html 으로
     String content;
 
-    @Column(name="username")
-    @JsonProperty("username")
+    @Column(name="uid")
+    @JsonProperty("uid")
     String uid;
+
+    @Column(name="author")
+    @JsonProperty("author")
+    String author;
 
     @Column(name = "created_at")
     @JsonProperty("created_at")
@@ -66,6 +70,7 @@ public class Article {
         }
 
         String uid = payload.get("uid");
+        String author = payload.get("author");
         String title = payload.get("title");
         String content = payload.get("content");
         int boardId = 1;
@@ -78,6 +83,7 @@ public class Article {
         article.setBoardId(boardId);
         article.setUpdatedAt(System.currentTimeMillis() / 1000);
         article.setUid(uid);
+        article.setAuthor(author);
         return article;
     }
 }

@@ -28,8 +28,10 @@ public class ArticleMsg {
     String content;
 
     @JsonProperty("author")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     String author;
+
+    @JsonProperty("uid")
+    String uid;
 
     @JsonProperty("created_at")
     long createdAt;
@@ -56,8 +58,8 @@ public class ArticleMsg {
         articleMsg.setUpdatedAt((article.getUpdatedAt()));
         articleMsg.setBoardId(article.getBoardId());
         articleMsg.setIsDeleted(article.getIsDeleted());
-        articleMsg.setAuthor(article.getUid());
-
+        articleMsg.setAuthor(article.getAuthor());
+        articleMsg.setUid(article.getUid());
         return articleMsg;
 
     }
