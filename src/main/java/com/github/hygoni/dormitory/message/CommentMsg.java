@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class CommentMsg {
     int id;
 
-    @JsonProperty("artilce_id")
+    @JsonProperty("article_id")
     int articleId;
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
