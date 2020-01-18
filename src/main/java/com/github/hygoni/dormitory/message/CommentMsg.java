@@ -16,11 +16,15 @@ import java.time.LocalDateTime;
 public class CommentMsg {
     int id;
 
-    @JsonProperty("artilce_id")
+    @JsonProperty("article_id")
     int articleId;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonProperty("author")
     String author;
+
+    @JsonProperty("uid")
+    String uid;
+
 
     int no;
     int depth;
@@ -38,7 +42,8 @@ public class CommentMsg {
         CommentMsg commentMsg=new CommentMsg();
         commentMsg.setId(comment.getId());
         commentMsg.setArticleId(comment.getArticleId());
-        commentMsg.setAuthor(comment.getUid());
+        commentMsg.setUid(comment.getUid());
+        commentMsg.setAuthor(comment.getAuthor());
         commentMsg.setContent(comment.getContent());
         commentMsg.setNo(comment.getNo());
         commentMsg.setDepth(comment.getDepth());

@@ -1,18 +1,11 @@
 package com.github.hygoni.dormitory.message;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.hygoni.dormitory.model.Article;
-import com.github.hygoni.dormitory.model.Comment;
-import com.github.hygoni.dormitory.model.User;
-import com.github.hygoni.dormitory.util.ArticleUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -50,7 +43,7 @@ public class ArticleMsg {
     public static ArticleMsg create(Article article){
         ArticleMsg articleMsg = new ArticleMsg();
         articleMsg.setId(article.getId());
-        articleMsg.setCategory(ArticleUtil.getArticleCategory(article.getId()));
+        articleMsg.setCategory(article.getCategory());
         articleMsg.setDepth(article.getDepth());
         articleMsg.setSubject(article.getSubject());//title
         articleMsg.setContent(article.getContent());

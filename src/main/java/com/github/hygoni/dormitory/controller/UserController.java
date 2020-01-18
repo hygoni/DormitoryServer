@@ -9,6 +9,7 @@ import com.github.hygoni.dormitory.security.JwtTokenProvider;
 import com.github.hygoni.dormitory.service.ResponseService;
 import com.github.hygoni.dormitory.service.SecurityService;
 import com.github.hygoni.dormitory.service.UserService;
+import com.github.hygoni.dormitory.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +31,7 @@ public class UserController {
     private final ResponseService responseService;
     private final PasswordEncoder passwordEncoder;
     private final SecurityService securityService;
+    SecurityUtil securityUtil = new SecurityUtil();
 
     @PostMapping("/register")
     public CommonResult register(@RequestBody Map<String, String> payload) {
@@ -40,7 +42,7 @@ public class UserController {
 
         userService.save(User.builder()
         .uid(payload.get("uid"))
-        .password(passwordEncoder.encode(payload.get("password")))
+        .password(securityUtil.sha256(payload.get("password")))
         .gender(payload.get("gender"))
         .nickname(payload.get("nickname"))
         .buildingNumber(Integer.parseInt(payload.get("building_number")))
@@ -54,7 +56,9 @@ public class UserController {
     @PostMapping("/login")
     public SingleResult<String> login(@RequestBody Map<String, String> payload){
         User user = userService.findByUid(payload.get("uid")).orElseThrow(LoginException::new);
-        if(!passwordEncoder.matches(payload.get("password"), user.getPassword())){
+        String passwordFromDB = user.getPassword();
+        String encodedPassword = securityUtil.sha256(payload.get("password"));
+        if(!encodedPassword.equals(passwordFromDB)){
             throw new LoginException();
         }
         
