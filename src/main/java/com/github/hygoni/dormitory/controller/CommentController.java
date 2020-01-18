@@ -37,10 +37,9 @@ public class CommentController {
         return responseService.getSuccessResult();
     }
 
-    @PostMapping("/readComment")
-    public List<CommentMsg> readComment(@RequestBody Map<String, String> payload) {
-        int id = Integer.parseInt(payload.get("article_id"));
-        List<CommentMsg> comments = commentService.getComments(id);
+    @GetMapping("/readComment")
+    public List<CommentMsg> readComment() {
+        List<CommentMsg> comments = commentService.findAll();
         return comments;
     }
 }

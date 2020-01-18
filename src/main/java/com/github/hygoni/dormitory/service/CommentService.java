@@ -36,6 +36,11 @@ public class CommentService {
         return convertToCommentMsg(comments);
     }
 
+    public List<CommentMsg> findAll(){
+        List<Comment> comments = commentRepository.findAll();
+        return convertToCommentMsg(comments);
+    }
+
     public void save(Map<String, String> payload){
         int articleId = Integer.parseInt(payload.get("article_id"));
         String content = payload.get("content");
