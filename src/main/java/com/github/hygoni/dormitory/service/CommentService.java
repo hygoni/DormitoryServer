@@ -44,8 +44,9 @@ public class CommentService {
     public void save(Map<String, String> payload){
         int articleId = Integer.parseInt(payload.get("article_id"));
         String content = payload.get("content");
-        String username = payload.get("uid");
-        Comment comment = Comment.create(username, articleId, content);
+        String uid = payload.get("uid");
+        String author = userRepository.findByUid(uid).get().getNickname();
+        Comment comment = Comment.create(author, uid, articleId, content);
         try{
             commentRepository.save(comment);
         }

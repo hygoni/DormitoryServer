@@ -26,6 +26,9 @@ public class Comment {
     @JsonProperty("uid")
     String uid;
 
+    @JsonProperty("author")
+    String author;
+
     @Column(name="no")
     int no;
 
@@ -44,10 +47,11 @@ public class Comment {
     @JsonProperty("updated_at")
     long updatedAt;
 
-    public static Comment create(String uid, int articleId, String content) {
+    public static Comment create(String author, String uid, int articleId, String content) {
         Comment comment = new Comment();
         comment.setArticleId(articleId);
         comment.setUid(uid);
+        comment.setAuthor(author);
         comment.setContent(content);
         comment.setCreatedAt(System.currentTimeMillis() / 1000);
         return comment;
