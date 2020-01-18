@@ -7,6 +7,7 @@ import com.github.hygoni.dormitory.model.CommonResult;
 import com.github.hygoni.dormitory.service.ArticleService;
 import com.github.hygoni.dormitory.service.ResponseService;
 import com.github.hygoni.dormitory.service.SecurityService;
+import com.github.hygoni.dormitory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,9 @@ public class ArticleController {
     @Autowired
     ResponseService responseService;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/boards")
     public List<ArticleMsg> showArticle(){
         return articleService.showArticleMsg();
@@ -47,7 +51,9 @@ public class ArticleController {
     @PostMapping("/writeArticle")
     public CommonResult insertArticle(HttpServletRequest request, @RequestBody Map<String, String> payload){
         String uid = securityService.getUsername(request);
+        String nickname = userService.findByUid(uid).get().getNickname();
         payload.put("uid", uid);
+        payload.put("author", nickname);
         Article article = Article.createFromRequest(payload);
         articleService.saveArticle(article);
         return responseService.getSuccessResult();
